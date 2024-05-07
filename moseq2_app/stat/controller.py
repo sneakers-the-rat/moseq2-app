@@ -408,14 +408,14 @@ class InteractiveTransitionGraph(TransitionGraphWidgets):
 
             labels = relabel_by_usage(labels, count='usage')[0]
 
-            self.compute_entropies(labels, label_group)
+            # self.compute_entropies(labels, label_group)
 
             # Compute usages and transition matrices
             self.trans_mats, self.usages = get_group_trans_mats(labels, label_group, sorted(self.group), self.max_sylls)
             self.df = self.df[self.df['syllable'] < self.max_sylls]
             self.df = self.df.groupby(['group', 'syllable'], as_index=False).mean()
 
-            self.compute_entropy_differences()
+            # self.compute_entropy_differences()
 
     def interactive_transition_graph_helper(self, layout, edge_threshold, usage_threshold):
         """
@@ -491,5 +491,5 @@ class InteractiveTransitionGraph(TransitionGraphWidgets):
             # interactive plot transition graphs
             plot_interactive_transition_graph(graphs, pos, self.group,
                                             group_names, usages, self.syll_info,
-                                            self.incoming_transition_entropy, self.outgoing_transition_entropy,
+                                            [], [],
                                             scalars=scalars, plot_vertically=self.plot_vertically)

@@ -605,7 +605,7 @@ def format_graphs(graphs, group):
 
 def get_neighbors(graph, node_indices, group_name):
     """
-    Compute the incoming and outgoing syllable entropies, entropy rates, previous nodes and neighboring nodes for all the nodes included in node_indices.
+    Compute the previous and next states for each node in the graph, and the corresponding edge colors.
 
     Args:
     graph (networkx DiGraph): Generated DiGraph to convert to Bokeh glyph and plot.
@@ -816,8 +816,6 @@ def setup_trans_graph_tooltips(plot):
                     <div><span style="font-size: 12px;">3D velocity: @speed_3d{0.000} mm/frame</span></div>
                     <div><span style="font-size: 12px;">Height: @height{0.000} mm</span></div>
                     <div><span style="font-size: 12px;">Distance to center: @dist_to_center_px{0.000} pixels</span></div>
-                    <div><span style="font-size: 12px;">Entropy in: @ent_in{0.000}</span></div>
-                    <div><span style="font-size: 12px;">Entropy out: @ent_out{0.000}</span></div>
                     <div><span style="font-size: 12px;">Outgoing syllables: @next</span></div>
                     <div><span style="font-size: 12px;">Incoming syllables: @prev</span></div>
                     <div>
@@ -984,8 +982,8 @@ def setup_graph_hover_renderers(graph_renderer, group_stats, node_indices):
     graph_renderer.node_renderer.data_source.add(group_stats['speed_3d'], 'speed_3d')
     graph_renderer.node_renderer.data_source.add(group_stats['height'], 'height')
     graph_renderer.node_renderer.data_source.add(group_stats['dist'], 'dist_to_center_px')
-    graph_renderer.node_renderer.data_source.add(group_stats['incoming_transition_entropy'], 'ent_in')
-    graph_renderer.node_renderer.data_source.add(group_stats['outgoing_transition_entropy'], 'ent_out')
+    # graph_renderer.node_renderer.data_source.add(group_stats['incoming_transition_entropy'], 'ent_in')
+    # graph_renderer.node_renderer.data_source.add(group_stats['outgoing_transition_entropy'], 'ent_out')
 
     return graph_renderer
 
@@ -1009,8 +1007,8 @@ def setup_node_and_edge_interactions(graph_renderer, group_stats, scalar_color):
         'Duration': {'key': 'duration', 'values': group_stats['duration']},
         'Height': {'key': 'height', 'values': group_stats['height']},
         'Distance to Center': {'key': 'dist_to_center_px', 'values': group_stats['dist']},
-        'Entropy-In': {'key': 'ent_in', 'values': np.nan_to_num(group_stats['incoming_transition_entropy'])},
-        'Entropy-Out': {'key': 'ent_out', 'values': np.nan_to_num(group_stats['outgoing_transition_entropy'])},
+        # 'Entropy-In': {'key': 'ent_in', 'values': np.nan_to_num(group_stats['incoming_transition_entropy'])},
+        # 'Entropy-Out': {'key': 'ent_out', 'values': np.nan_to_num(group_stats['outgoing_transition_entropy'])},
     }
 
     fill_color, empty = set_fill_color(scalar_color, data_dict)
@@ -1211,8 +1209,8 @@ def plot_interactive_transition_graph(graphs, pos, group, group_names, usages,
         # compute group stats for each node
         group_scalars = {k: v[i] for k, v in scalars.items()}
         group_stats = get_trans_graph_group_stats(node_indices, usages[i], group_scalars)
-        group_stats['incoming_transition_entropy'] = incoming_transition_entropy[i]
-        group_stats['outgoing_transition_entropy'] = outgoing_transition_entropy[i]
+        # group_stats['incoming_transition_entropy'] = incoming_transition_entropy[i]
+        # group_stats['outgoing_transition_entropy'] = outgoing_transition_entropy[i]
 
         # get state neighbor lists for each node
         group_stats['prev_states'], group_stats['next_states'], group_stats['neighbor_edge_colors'] = \
