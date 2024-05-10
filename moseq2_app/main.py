@@ -7,7 +7,6 @@ from IPython.display import display
 from bokeh.io import output_notebook
 from moseq2_extract.util import filter_warnings
 from moseq2_extract.gui import get_selected_sessions
-from moseq2_app.flip.controller import FlipRangeTool
 from moseq2_app.gui.widgets import GroupSettingWidgets
 from moseq2_app.scalars.controller import InteractiveScalarViewer
 from moseq2_app.stat.controller import InteractiveSyllableStats
@@ -38,37 +37,6 @@ def validate_inputs(inputs, progress_paths):
 
     return error
 
-@filter_warnings
-def flip_classifier_tool(input_dir,
-                         output_file,
-                         clean_parameters,
-                         max_frames=1e6,
-                         continuous_slider_update=True,
-                         launch_gui=True):
-    """
-
-    start flip classifier tool.
-
-    Args:
-    input_dir (str): Path to base directory containing extraction session folders
-    max_frames (int): Maximum number of frames to include in the dataset.
-    output_file (str): Path to save the outputted flip classifier.
-    clean_parameters (dict): Parameters passed to moseq2_extract.extract.proc.clean_frames 
-    continuous_slider_update (bool): Indicates whether to continuously update the view upon slider widget interactions.
-    launch_gui (bool): Indicates whether to launch the labeling gui or just create the FlipClassifier instance.
-
-    Returns:
-    flip_obj (FlipRangeTool): Flip Classifier training widget.
-    """
-
-    flip_finder = FlipRangeTool(input_dir=input_dir,
-                                max_frames=max_frames,
-                                output_file=output_file,
-                                clean_parameters=clean_parameters,
-                                launch_gui=launch_gui,
-                                continuous_slider_update=continuous_slider_update)
-
-    return flip_finder
 
 @filter_warnings
 def view_extraction(extractions, default=0):
