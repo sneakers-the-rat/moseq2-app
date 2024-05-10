@@ -88,6 +88,9 @@ def flatten(array: np.ndarray) -> np.ndarray:
 
 def batch_apply_pca(frames: np.ndarray, pca: PCA, batch_size: int = 1000) -> np.ndarray:
     output = []
+    if len(frames) < batch_size:
+        return pca.transform(flatten(frames)).astype(np.float32)
+
     for arr in np.array_split(frames, len(frames) // batch_size):
         output.append(pca.transform(flatten(arr)).astype(np.float32))
     return np.concatenate(output, axis=0).astype(np.float32)
@@ -117,7 +120,7 @@ def train_classifier(
         (
             RandomForestClassifier(n_estimators=150)
             if classifier == "RF"
-            else SVC(probability=True, kernel="linear")
+            else SVC(probability=True)
         ),
     )
 

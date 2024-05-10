@@ -182,4 +182,4 @@ class FlipClassifierWidget:
 
     @property
     def training_data_path(self):
-        return self.data_path.parent / 'flip-training-frame-ranges.p'
+        return str(self.data_path.parent / 'flip-training-frame-ranges.p')

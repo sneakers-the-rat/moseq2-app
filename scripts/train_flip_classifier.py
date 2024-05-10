@@ -27,7 +27,7 @@ def main(data_index_path, prefix, classifier_type):
     print(f"Training {classifier_type} classifier")
     classifier = train_classifier(dataset_path, classifier=classifier_type.upper())
     save_classifier(
-        classifier, dataset_path.with_name(f"{prefix}{classifier}_flip_classifier.p")
+        classifier, dataset_path.with_name(f"{prefix}{classifier_type}_flip_classifier.p")
     )
 
 
