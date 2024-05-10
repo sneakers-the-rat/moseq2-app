@@ -2,7 +2,7 @@
 
 set -e
 
-pip install .
+pip install ".[full]"
 
 # Install and Enable widget extensions configurator
 jupyter nbextension install --py jupyter_nbextensions_configurator --sys-prefix
