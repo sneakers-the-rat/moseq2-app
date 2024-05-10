@@ -12,10 +12,9 @@ def _extraction_complete(file_path: Path):
     return config['complete']
 
 
-def _find_extractions(data_path: str, extracted: bool = True):
-    files = sorted(Path(data_path).glob('**/*.h5'))
-    if extracted:
-        files = [f for f in files if _extraction_complete(f.with_suffix('.yaml'))]
+def _find_extractions(data_path: str):
+    files = Path(data_path).glob('**/*.h5')
+    files = sorted(f for f in files if _extraction_complete(f.with_suffix('.yaml')))
     if len(set([f.name for f in files])) < len(files):
         files = {f.parent.name + '/' + f.name: f for f in files}
     else:
@@ -26,7 +25,7 @@ def _find_extractions(data_path: str, extracted: bool = True):
 class FlipClassifierWidget:
     def __init__(self, data_path: str):
         self.data_path = Path(data_path)
-        self.sessions = _find_extractions(data_path, extracted=True)
+        self.sessions = _find_extractions(data_path)
         # self.selected_frame_ranges_dict = {k: [] for k in self.path_dict}
         self.selected_frame_ranges_dict = defaultdict(list)
         self.curr_total_selected_frames = 0
