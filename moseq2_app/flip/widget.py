@@ -2,13 +2,14 @@ import h5py
 import pickle
 import panel as pn
 import holoviews as hv
-import ruamel.yaml as yaml
+from ruamel.yaml import YAML
 from pathlib import Path
 from collections import defaultdict
 
 
 def _extraction_complete(file_path: Path):
-    config = yaml.safe_load(file_path.read_text())
+    yaml = YAML(typ="safe", pure=True)
+    config = yaml.load(file_path.read_text())
     return config['complete']
 
 
